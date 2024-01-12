@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+
+    <title>Document</title>
+
+
+    <script>
+   function fetchData() {
+            const apiUrl = 'https://script.googleusercontent.com/macros/echo?user_content_key=28UE7uAht5K0fAtEBmiefLh42bMyDyaWLvatob2-EDJARdPbi6StXPqYCItRS8n0lhAD8miOTB3XI7eSPI9MSXidT_syjHSvm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnNZK4Cr657I1ClyklbU5XM63XB3iM5cAQ3Vs1Ztj2DHJbb6x-FRX0UnJnIanaPgbKj8kIE6-BOK5pGVfRyYhX1x0NXSu_R3m8Nz9Jw9Md8uu&lib=MwwwkCdG8c6rukGGTW3wpYgdDtvx0YN5e';
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => displayData(data))
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Fungsi untuk menampilkan data ke dalam elemen HTML
+         function displayData(data) {
+            const waktu = document.getElementById('waktu');
+            const outputDiv = document.getElementById('bpm-read');
+            
+            if (data && data.content && data.content.length > 0) {
+                const headers = data.content[0];
+                const content = data.content.slice(1); // Mengambil baris ke-2 dan seterusnya             
+                         
+                
+                let outputHTML = content[0][2]           
+                outputDiv.innerHTML += outputHTML;
+                waktu.innerHTML = content[0][1]
+
+                console.log(content[0])
+            } else {
+                outputDiv.textContent = 'No data found.';
+            }
+            setInterval(function() {
+                location.reload();
+                console.log('refresh')
+            }, 5000)  
+               
+        }
+        
+        // Memanggil fungsi fetchData saat halaman dimuat
+        fetchData();
+        
+        function refreshPage(){
+            location.reload();
+        }
+     document.addEventListener("DOMContentLoaded", function() {
+    const refreshButton = document.querySelector('.refresh');
+    if (refreshButton) {
+      refreshButton.addEventListener('click', refreshPage);
+    }
+  });
+
+
+    </script>
+</head>
+<body>
+    <div>
+        <nav class="nav">
+            <p>PEMBACA DETAK JANTUNG</p>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="bpm">  
+        <p>
+            BPM Reader
+        </p>
+        </div>
+        <div class="bpm-read" id="bpm-read">
+
+        </div>
+
+        
+    </div>
+    <div class="refresh">
+        <button>
+            REFRESH
+        </button>
+    </div>  
+</body>
+</html>
